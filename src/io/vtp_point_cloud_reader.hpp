@@ -58,7 +58,7 @@ namespace io {
           << "File: " << pFilename << std::endl;
       }
       vtkSmartPointer<vtkCellData> celldata = polydata->GetCellData();
-      std::string sqrtOfAreaStr = "sqrt-of-area";
+      std::string sqrtOfAreaStr = "gridSpacing";
       //std::string sqrtOfAreaStr = "Points_Magnitude";
       celldata->SetActiveAttribute(sqrtOfAreaStr.c_str(), vtkDataSetAttributes::SCALARS);
       vtkSmartPointer<vtkDataArray> sqrtOfAreaArray = celldata->GetScalars();
@@ -68,12 +68,23 @@ namespace io {
           << " could not find cell data with the name \"" << sqrtOfAreaStr << "\" in the file "
           << pFilename << std::endl;
       }
-      vtkSmartPointer<vtkDataArray> normals = celldata->GetNormals();
+
+      std::string normalStr = "Normals";
+      //std::string sqrtOfAreaStr = "Points_Magnitude";
+      celldata->SetActiveAttribute(normalStr.c_str(), vtkDataSetAttributes::VECTORS);
+      vtkSmartPointer<vtkDataArray> normals = celldata->GetVectors();
       if (normals == nullptr) {
         std::cerr
           << "Warning: " << typeid(this).name()
-          << " could not find surface normal data in the file " << pFilename << std::endl;
+          << " could not find cell data with the name \"" << normalStr << "\" in the file "
+          << pFilename << std::endl;
       }
+      // vtkSmartPointer<vtkDataArray> normals = celldata->GetNormals();
+      // if (normals == nullptr) {
+      //   std::cerr
+      //     << "Warning: " << typeid(this).name()
+      //     << " could not find surface normal data in the file " << pFilename << std::endl;
+      // }
       for (vtkIdType idx = 0; idx < numPnts; ++idx) {
         double xyz[3]; // 3 dimensions
         polydata->GetPoint(idx, xyz);

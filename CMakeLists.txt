@@ -7,7 +7,7 @@ project (
 find_package (
   librtidevice REQUIRED
   # Path to the rti library
-  PATHS "/home/alexander/iue/cdr/rti-3-tmp/build/"
+  PATHS "/home/xaver/Code/RayTracer/rti/build"
   )
 
 set(CMAKE_CXX_STANDARD 14)

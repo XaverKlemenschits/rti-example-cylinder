@@ -12,10 +12,10 @@
 
 int main(int argc, char** argv)
 {
-  omp_set_num_threads(1);
+  // omp_set_num_threads(1);
   using numeric_type = float;
 
-  auto input = io::vtp_point_cloud_reader<numeric_type>("../src/io/cylinder-25-rotated.vtp");
+  auto input = io::vtp_point_cloud_reader<numeric_type>("../src/io/diskMesh.vtp");
   auto points = input.get_points();
   auto normals = input.get_normals();
   auto radii = input.get_radii();
@@ -25,7 +25,7 @@ int main(int argc, char** argv)
   rtidevice.set_points(points);
   rtidevice.set_normals(normals);
   rtidevice.set_grid_spacing(radii);
-  rtidevice.set_number_of_rays(1024 * 1024);
+  rtidevice.set_number_of_rays(1024 * points.size());
   rtidevice.register_particle_factory(std::move(particlefactory));
   rtidevice.run();
   auto mcestimates = rtidevice.get_mc_estimates();
